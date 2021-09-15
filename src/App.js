@@ -1,23 +1,103 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState, useEffect } from "react";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import Cookies from "js-cookie";
+import { io } from "socket.io-client";
+
+import HomePage from "./pages/HomePage/HomePage";
+import SignUpPage from "./pages/SignUpPage/SignUpPage";
+import LoginPage from "./pages/LoginPage/LoginPage";
+import PageNotFound from "./pages/PageNotFound/PageNotFound";
+import Header from "./components/Header";
+
+import "./App.css";
 
 function App() {
+  let socket = io(process.env.REACT_APP_API_URL);
+
+  let token;
+  const [coords, setCoors] = useState({ latitude: null, longitude: null });
+  const [authToken, setAuthToken] = useState(
+    Cookies.get("userToken", token) || null
+  );
+  const handleLogin = (token) => {
+    Cookies.set("userToken", token, { expires: 7 });
+    setAuthToken(token);
+  };
+  const handleLogOut = () => {
+    Cookies.remove("userToken");
+    setAuthToken(null);
+    setCoors({ latitude: null, longitude: null });
+    socket.emit("deconnection", authToken);
+  };
+  useEffect(() => {
+    let watchId;
+    if (authToken) {
+      const geo_options = {
+        enableHighAccuracy: true,
+        maximumAge: 5000,
+        timeout: 27000,
+      };
+      const getPos = async () => {
+        watchId = await navigator.geolocation.watchPosition(
+          (position) => {
+            console.log("pos app");
+            setCoors({
+              latitude: position.coords.latitude,
+              longitude: position.coords.longitude,
+            });
+          },
+          (err) => console.log(err),
+          geo_options
+        );
+      };
+      getPos();
+    }
+
+    return () => {
+      navigator.geolocation.clearWatch(watchId);
+    };
+  }, [authToken]);
+  useEffect(() => {
+    if (coords.latitude && coords.longitude && authToken) {
+      socket.emit("userPos", { authToken: authToken, coords: coords });
+    }
+  }, [coords, socket, authToken]);
+  useEffect(() => {
+    if (authToken) {
+      socket.emit("login", authToken);
+      socket.on("newUser", (userName) => {
+        // console.log(`new user ${userName}  conected`);
+        // console.log(userName);
+      });
+    }
+    return () => {
+      socket.disconnect(0);
+    };
+  }, [authToken, socket]);
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Header />
+      <Router>
+        <Switch>
+          <Route exact path="/user/sign-up">
+            <SignUpPage />
+          </Route>
+          <Route exact path="/user/login">
+            <LoginPage></LoginPage>
+          </Route>
+          <Route exact path="/">
+            <HomePage
+              authToken={authToken}
+              handleLogOut={handleLogOut}
+              handleLogin={handleLogin}
+              coords={coords}
+            />
+          </Route>
+          <Route path="*">
+            <PageNotFound />
+          </Route>
+        </Switch>
+      </Router>
     </div>
   );
 }
