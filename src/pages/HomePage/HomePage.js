@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-
+import { useHistory } from "react-router-dom";
 import GoogleMapReact from "google-map-react";
 import axios from "axios";
 // import { io } from "socket.io-client";
@@ -7,6 +7,8 @@ import axios from "axios";
 import Marker from "../../components/Marker";
 
 const HomePage = (props) => {
+  let history = useHistory();
+
   // let socket = io(process.env.REACT_APP_API_URL);
   const { authToken, handleLogin, handleLogOut, coords } = props;
 
@@ -99,7 +101,12 @@ const HomePage = (props) => {
           <button onClick={handleLogOut}>Se déconecté</button>
         ) : (
           <form onSubmit={onSubmitClick} className="connect">
-            <p>se connecter/s'inscrire </p>
+            <p>
+              se connecter/{" "}
+              <button onClick={() => history.push("user/sign-up")}>
+                s'inscrire
+              </button>
+            </p>
             <input
               onChange={handleEmailChange}
               type="email"
