@@ -40,7 +40,7 @@ const SignUpPage = () => {
           `${process.env.REACT_APP_API_URL}user/sign-up`,
           field
         );
-        // console.log("me pos =>", field);
+        console.log(response);
       }
     } catch (error) {
       console.log(error.response.data.message);

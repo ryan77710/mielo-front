@@ -2,12 +2,12 @@ import { useState, useEffect } from "react";
 
 import GoogleMapReact from "google-map-react";
 import axios from "axios";
-import { io } from "socket.io-client";
+// import { io } from "socket.io-client";
 
 import Marker from "../../components/Marker";
 
 const HomePage = (props) => {
-  let socket = io(process.env.REACT_APP_API_URL);
+  // let socket = io(process.env.REACT_APP_API_URL);
   const { authToken, handleLogin, handleLogOut, coords } = props;
 
   const [mapLoading, setMapLoading] = useState(true);
