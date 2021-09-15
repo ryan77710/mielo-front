@@ -103,9 +103,9 @@ const HomePage = (props) => {
           <form onSubmit={onSubmitClick} className="connect">
             <p>
               se connecter/{" "}
-              <button onClick={() => history.push("user/sign-up")}>
+              <span onClick={() => history.push("user/sign-up")}>
                 s'inscrire
-              </button>
+              </span>
             </p>
             <input
               onChange={handleEmailChange}
