@@ -60,6 +60,9 @@ const HomePage = (props) => {
   return (
     <div className="home-page">
       <h1>accueil</h1>
+      <p>
+        {coords.longitude} {coords.latitude}
+      </p>
       <div>
         <div className="map-container">
           {mapLoading ? (
@@ -98,7 +101,7 @@ const HomePage = (props) => {
           )}
         </div>
         {authToken ? (
-          <button onClick={handleLogOut}>Se déconecté</button>
+          <button onClick={handleLogOut}>Se déconnecter</button>
         ) : (
           <form onSubmit={onSubmitClick} className="connect">
             <p>

@@ -12,7 +12,9 @@ import Header from "./components/Header";
 import "./App.css";
 
 function App() {
-  let socket = io(process.env.REACT_APP_API_URL);
+  let socket = io(process.env.REACT_APP_API_URL, {
+    reconnectionDelayMax: 10000,
+  });
 
   let token;
   const [coords, setCoors] = useState({ latitude: null, longitude: null });
@@ -27,7 +29,7 @@ function App() {
     Cookies.remove("userToken");
     setAuthToken(null);
     setCoors({ latitude: null, longitude: null });
-    socket.emit("deconnection", authToken);
+    socket.emit("deconnection", { authToken: authToken });
   };
   useEffect(() => {
     let watchId;
@@ -40,11 +42,16 @@ function App() {
       const getPos = async () => {
         watchId = await navigator.geolocation.watchPosition(
           (position) => {
-            console.log("pos app");
-            setCoors({
-              latitude: position.coords.latitude,
-              longitude: position.coords.longitude,
-            });
+            if (
+              position.coords.latitude === coords.latitude &&
+              position.coords.longitude === coords.longitude
+            ) {
+            } else {
+              setCoors({
+                latitude: position.coords.latitude,
+                longitude: position.coords.longitude,
+              });
+            }
           },
           (err) => console.log(err),
           geo_options
@@ -56,22 +63,25 @@ function App() {
     return () => {
       navigator.geolocation.clearWatch(watchId);
     };
-  }, [authToken]);
+  }, [authToken, coords.latitude, coords.longitude]);
+  useEffect(() => {
+    socket.emit("login", { authToken: authToken });
+  }, [socket, authToken]);
   useEffect(() => {
     if (coords.latitude && coords.longitude && authToken) {
       socket.emit("userPos", { authToken: authToken, coords: coords });
     }
+    return () => {
+      // socket.disconnect(0);
+    };
   }, [coords, socket, authToken]);
   useEffect(() => {
     if (authToken) {
-      socket.emit("login", authToken);
-      socket.on("newUser", (userName) => {
-        // console.log(`new user ${userName}  conected`);
-        // console.log(userName);
-      });
+      // socket.emit("login", authToken);
+      // socket.on("newUser", () => {});
     }
     return () => {
-      socket.disconnect(0);
+      // socket.disconnect(0);
     };
   }, [authToken, socket]);
   return (
