@@ -1,72 +1,40 @@
 import { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
 import GoogleMapReact from "google-map-react";
 import axios from "axios";
 // import { io } from "socket.io-client";
 
 import Marker from "../../components/Marker";
+import { SpinnerDotted } from "spinners-react";
 
 const HomePage = (props) => {
-  let history = useHistory();
-
   // let socket = io(process.env.REACT_APP_API_URL);
-  const { authToken, handleLogin, handleLogOut, coords } = props;
+  const { authToken, actualCoords } = props;
 
   const [mapLoading, setMapLoading] = useState(true);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
   const [markers, setMarkers] = useState([]);
 
   useEffect(() => {
-    if (coords.latitude && coords.longitude) {
+    if (actualCoords.latitude && actualCoords.longitude) {
       const fetchData = async () => {
-        const response = await axios.post(
-          `${process.env.REACT_APP_API_URL}location/around?latitude=${coords.latitude}&longitude=${coords.longitude}`
+        const responseLocation = await axios.post(
+          `${process.env.REACT_APP_API_URL}location/around?latitude=${actualCoords.latitude}&longitude=${actualCoords.longitude}`
         );
-        setMarkers(response.data.data);
-        console.log(response.data.data);
+        setMarkers(responseLocation.data.data);
       };
       fetchData();
       setMapLoading((x) => false);
     } else {
       setMapLoading((x) => true);
     }
-  }, [coords, authToken]);
-
-  const handleEmailChange = (event) => setEmail((x) => event.target.value);
-  const handlePasswordChange = (event) =>
-    setPassword((x) => event.target.value);
-
-  const onSubmitClick = async (event) => {
-    try {
-      event.preventDefault();
-      const field = {
-        email: email,
-        password: password,
-      };
-      const response = await axios.post(
-        `${process.env.REACT_APP_API_URL}user/login`,
-        field
-      );
-      if (response.status === 200) {
-        handleLogin(response.data.data.token);
-      }
-    } catch (error) {
-      setErrorMessage(error.response.data.message);
-    }
-  };
+  }, [actualCoords, authToken]);
 
   return (
     <div className="home-page">
-      <h1>accueil</h1>
-      <p>
-        {coords.longitude} {coords.latitude}
-      </p>
+      <h1>Home</h1>
       <div>
         <div className="map-container">
           {mapLoading ? (
-            <p>map loading</p>
+            <SpinnerDotted color="orange" enabled={true} />
           ) : (
             <div className="map">
               <GoogleMapReact
@@ -74,8 +42,8 @@ const HomePage = (props) => {
                   key: process.env.REACT_APP_GOGGLE_KEY,
                 }}
                 center={{
-                  lat: coords.latitude,
-                  lng: coords.longitude,
+                  lat: actualCoords.latitude,
+                  lng: actualCoords.longitude,
                 }}
                 defaultZoom={18}
                 options={{ gestureHandling: "none", disableDefaultUI: true }}
@@ -100,32 +68,6 @@ const HomePage = (props) => {
             </div>
           )}
         </div>
-        {authToken ? (
-          <button onClick={handleLogOut}>Se déconnecter</button>
-        ) : (
-          <form onSubmit={onSubmitClick} className="connect">
-            <p>
-              se connecter/{" "}
-              <span onClick={() => history.push("user/sign-up")}>
-                s'inscrire
-              </span>
-            </p>
-            <input
-              onChange={handleEmailChange}
-              type="email"
-              placeholder="email"
-              value={email}
-            />
-            <input
-              onChange={handlePasswordChange}
-              value={password}
-              type="password"
-              placeholder="password"
-            />
-            {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
-            <button type="submit">validé</button>
-          </form>
-        )}
       </div>
     </div>
   );

@@ -17,10 +17,14 @@ function App() {
   });
 
   let token;
-  const [coords, setCoors] = useState({ latitude: null, longitude: null });
+  const [actualCoords, setActualCoors] = useState({
+    latitude: null,
+    longitude: null,
+  });
   const [authToken, setAuthToken] = useState(
     Cookies.get("userToken", token) || null
   );
+
   const handleLogin = (token) => {
     Cookies.set("userToken", token, { expires: 7 });
     setAuthToken(token);
@@ -28,80 +32,90 @@ function App() {
   const handleLogOut = () => {
     Cookies.remove("userToken");
     setAuthToken(null);
-    setCoors({ latitude: null, longitude: null });
+    setActualCoors({ latitude: null, longitude: null });
     socket.emit("deconnection", { authToken: authToken });
   };
+
   useEffect(() => {
     let watchId;
-    if (authToken) {
-      const geo_options = {
-        enableHighAccuracy: true,
-        maximumAge: 5000,
-        timeout: 27000,
-      };
-      const getPos = async () => {
-        watchId = await navigator.geolocation.watchPosition(
-          (position) => {
+    const geo_options = {
+      enableHighAccuracy: true,
+      maximumAge: 5000,
+      timeout: 27000,
+    };
+    const getPos = async () => {
+      watchId = await navigator.geolocation.watchPosition(
+        (position) => {
+          console.log(position);
+          if (!actualCoords.latitude && !actualCoords.longitude) {
+            console.log("existe pas");
+            setActualCoors({
+              latitude: position.coords.latitude,
+              longitude: position.coords.longitude,
+            });
+          } else {
+            console.log("existe");
             if (
-              position.coords.latitude === coords.latitude &&
-              position.coords.longitude === coords.longitude
+              position.coords.latitude !== actualCoords.latitude ||
+              position.coords.longitude !== actualCoords.longitude
             ) {
+              console.log("différent");
+              const resPosition =
+                position.coords.longitude - position.coords.latitude;
+              const resPositionPow = Math.pow(resPosition, 2);
+              const resActualPos =
+                actualCoords.longitude - actualCoords.latitude;
+              const resActualPosPow = Math.pow(resActualPos, 2);
+              const resAdditionPos = resActualPosPow + resPositionPow;
+              const resFinal = Math.sqrt(resAdditionPos);
+              console.log("resfinal =>", resFinal);
             } else {
-              setCoors({
-                latitude: position.coords.latitude,
-                longitude: position.coords.longitude,
-              });
+              console.log("pareil");
             }
-          },
-          (err) => console.log(err),
-          geo_options
-        );
-      };
-      getPos();
-    }
+          }
+        },
+        (err) => console.log(err),
+        geo_options
+      );
+    };
+    getPos();
 
     return () => {
       navigator.geolocation.clearWatch(watchId);
     };
-  }, [authToken, coords.latitude, coords.longitude]);
-  useEffect(() => {
-    socket.emit("login", { authToken: authToken });
-  }, [socket, authToken]);
-  useEffect(() => {
-    if (coords.latitude && coords.longitude && authToken) {
-      socket.emit("userPos", { authToken: authToken, coords: coords });
-    }
-    return () => {
-      // socket.disconnect(0);
-    };
-  }, [coords, socket, authToken]);
+  }, [authToken, actualCoords.latitude, actualCoords.longitude]);
   useEffect(() => {
     if (authToken) {
-      // socket.emit("login", authToken);
-      // socket.on("newUser", () => {});
+      socket.emit("login", { authToken: authToken });
+    }
+  }, [socket, authToken]);
+  useEffect(() => {
+    if (actualCoords.latitude && actualCoords.longitude && authToken) {
+      socket.emit("userPos", { authToken: authToken, coords: actualCoords });
     }
     return () => {
       // socket.disconnect(0);
     };
-  }, [authToken, socket]);
+  }, [actualCoords, socket, authToken]);
+
   return (
     <div className="App">
-      <Header />
       <Router>
+        <Header
+          actualCoords={actualCoords}
+          authToken={authToken}
+          handleLogin={handleLogin}
+          handleLogOut={handleLogOut}
+        />
         <Switch>
           <Route exact path="/user/sign-up">
-            <SignUpPage />
+            <SignUpPage handleLogin={handleLogin} />
           </Route>
           <Route exact path="/user/login">
             <LoginPage></LoginPage>
           </Route>
           <Route exact path="/">
-            <HomePage
-              authToken={authToken}
-              handleLogOut={handleLogOut}
-              handleLogin={handleLogin}
-              coords={coords}
-            />
+            <HomePage authToken={authToken} actualCoords={actualCoords} />
           </Route>
           <Route path="*">
             <PageNotFound />

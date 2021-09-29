@@ -1,9 +1,22 @@
 .home-page {
-  /* background-color: aqua; */
-  height: 700px;
-  background-color: aquamarine;
+  /* background-color: aquamarine; */
+  margin: 15px 15%;
+  /* border: black solid 1px; */
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+.home-page > h1 {
+  font-size: 2em;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+.home-page .map-container {
+  display: flex;
+  justify-content: center;
 }
 .home-page .map {
   height: 400px;
-  width: 700px;
+  width: 70vw;
 }

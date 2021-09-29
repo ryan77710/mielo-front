@@ -1,0 +1,86 @@
+.signup-page {
+  /* background-color: aquamarine; */
+  margin: 15px 15%;
+  /* border: black solid 1px; */
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+.signup-page > h1 {
+  font-size: 2em;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+.signup-page form {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+.signup-page form input,
+.signup-page form p,
+.signup-page form textarea {
+  margin-bottom: 20px;
+}
+.signup-page form input {
+  width: 250px;
+  height: 30px;
+  /* color: orange; */
+  /* color: wheat; */
+  padding: 5px;
+  box-sizing: border-box;
+  outline: none;
+  border: orange 1.5px solid;
+  border-radius: 3%;
+}
+.signup-page form input:focus,
+.signup-page form textarea:focus {
+  border: black 1.5px solid;
+  background-color: lightblue;
+}
+.signup-page form p {
+  /*  */
+}
+
+.signup-page form .password-details,
+.signup-page form .username-details {
+  width: 250px;
+  /* border: red solid 1px; */
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  font-size: 12px;
+}
+.signup-page form textarea {
+  width: 400px;
+  height: 100px;
+  /* color: orange; */
+  /* color: wheat; */
+  padding: 5px;
+  box-sizing: border-box;
+  outline: none;
+  border: orange 1.5px solid;
+  border-radius: 3%;
+}
+
+.signup-page form button {
+  margin-top: 30px;
+  width: 70px;
+  height: 40px;
+  border-radius: 5%;
+  font-size: 1em;
+  background-color: wheat;
+  outline: none;
+  border: none;
+  cursor: pointer;
+}
+.signup-page form button:hover {
+  background-color: black;
+  color: blanchedalmond;
+}
+.signup-page form .message-good {
+  color: rgb(33, 158, 33);
+}
+.signup-page form .message-error {
+  color: red;
+}

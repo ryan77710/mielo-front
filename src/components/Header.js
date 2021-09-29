@@ -1,13 +1,141 @@
-const Header = () => {
+import { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
+import axios from "axios";
+
+const Header = (props) => {
+  const { authToken, handleLogin, handleLogOut, actualCoords } = props;
+  let history = useHistory();
+  const [userData, setUserData] = useState(null);
+  const [headerLoading, setHeaderLoading] = useState(true);
+  const [headerToggle, setHeaderToggle] = useState(false);
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const handleEmailChange = (event) => setEmail((x) => event.target.value);
+  const handlePasswordChange = (event) =>
+    setPassword((x) => event.target.value);
+
+  useEffect(() => {
+    setHeaderLoading(true);
+
+    const fetchData = async () => {
+      if (authToken) {
+        const responseUser = await axios.get(
+          `${process.env.REACT_APP_API_URL}user-token/${authToken}`
+        );
+        setUserData(responseUser.data);
+      } else {
+        setUserData(null);
+      }
+    };
+    fetchData();
+
+    setHeaderLoading(false);
+  }, [authToken, handleLogin, handleLogOut]);
+
+  const onSubmitClick = async (event) => {
+    try {
+      event.preventDefault();
+      const field = {
+        email: email,
+        password: password,
+      };
+      const response = await axios.post(
+        `${process.env.REACT_APP_API_URL}user/login`,
+        field
+      );
+      if (response.status === 200) {
+        handleLogin(response.data.data.token);
+      }
+    } catch (error) {
+      setErrorMessage(error.response.data.message);
+    }
+  };
   return (
     <div className="header">
       <header>
-        <div>logo mielo</div>
-        <button>my profile</button>
-        <button>pick</button>
-        <button>flux</button>
-        <button>autour</button>
-        <button>amis</button>
+        <div onClick={() => history.push("/")} className="logo-container">
+          <img src="/mielo3.png" alt="mielo" />
+          <img src="/mielo2.png" alt="mielo" />
+        </div>
+        <div className="button-container">
+          <button>my profile</button>
+          <button>pick</button>
+          <button>flux</button>
+          <button>arround</button>
+          <button>friends</button>
+        </div>
+        <div className="profile-container">
+          {headerLoading ? (
+            <p>head loading</p>
+          ) : (
+            <div className={`profile-user`}>
+              <div className="profile-basic-container">
+                <button onClick={() => setHeaderToggle((x) => !x)}>
+                  {!headerToggle ? "+" : "-"}
+                </button>
+                {userData ? (
+                  <img
+                    src={userData.user.profilePicture.secure_url}
+                    alt={userData.user.username}
+                  />
+                ) : (
+                  <img src="/anonymous.jpeg" alt="anonymous-user" />
+                )}
+              </div>
+              {headerToggle ? (
+                <div className="header-toggle-on">
+                  <div className="connection-button">
+                    {authToken ? (
+                      <button onClick={handleLogOut} className="button-log-out">
+                        log out
+                      </button>
+                    ) : (
+                      <div>
+                        <form onSubmit={onSubmitClick}>
+                          <input
+                            onChange={handleEmailChange}
+                            type="email"
+                            placeholder="email"
+                            value={email}
+                          />
+                          <input
+                            onChange={handlePasswordChange}
+                            value={password}
+                            type="password"
+                            placeholder="password"
+                          />
+                          {errorMessage && (
+                            <p className="error-message">{errorMessage}</p>
+                          )}
+                          <button type="submit" className="button-log-in">
+                            log in
+                          </button>
+                        </form>
+
+                        <p>or</p>
+                        <button
+                          onClick={() => history.push("user/sign-up")}
+                          className="button-sign-up"
+                        >
+                          Sign up
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                  <div>
+                    <p>latitude : {actualCoords.latitude || "null"}</p>
+                    <p>longitude : {actualCoords.longitude || "null"}</p>
+                  </div>
+                </div>
+              ) : (
+                ""
+              )}
+            </div>
+          )}
+        </div>
       </header>
     </div>
   );

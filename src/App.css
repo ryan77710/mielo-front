@@ -1,1 +1,9 @@
 @import "./pages//HomePage/homePage.css";
+@import "./components/header.css";
+@import "./pages/SignUpPage/signupPage.css";
+
+.App {
+  /* background-color: red; */
+  min-height: 100vh;
+  min-width: 100vw;
+}
