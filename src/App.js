@@ -7,6 +7,11 @@ import HomePage from "./pages/HomePage/HomePage";
 import SignUpPage from "./pages/SignUpPage/SignUpPage";
 import LoginPage from "./pages/LoginPage/LoginPage";
 import PageNotFound from "./pages/PageNotFound/PageNotFound";
+import ArroundPage from "./pages/ArroundPage/ArroundPage";
+import FriendPage from "./pages/FriendPage/FriendPage";
+import MessagesPage from "./pages/MessagesPage/MessagesPage";
+import ProfilePage from "./pages/ProfilePage/ProfilePage";
+
 import Header from "./components/Header";
 
 import "./App.css";
@@ -21,9 +26,8 @@ function App() {
     latitude: null,
     longitude: null,
   });
-  const [authToken, setAuthToken] = useState(
-    Cookies.get("userToken", token) || null
-  );
+  const [authToken, setAuthToken] = useState(Cookies.get("userToken", token) || null);
+  const [username, setUsername] = useState(null);
 
   const handleLogin = (token) => {
     Cookies.set("userToken", token, { expires: 7 });
@@ -43,6 +47,14 @@ function App() {
       maximumAge: 5000,
       timeout: 27000,
     };
+    const getDist = (actualCoords, newCoords) => {
+      const pointX = actualCoords.longitude - newCoords.longitude;
+      const pointY = actualCoords.latitude - newCoords.latitude;
+      const dist = Math.sqrt(Math.pow(pointX, 2) + Math.pow(pointY, 2));
+      console.log("la distance est =====>", dist);
+      return dist;
+    };
+    // const checkDist = (dist, minDist) => {};
     const getPos = async () => {
       watchId = await navigator.geolocation.watchPosition(
         (position) => {
@@ -53,23 +65,14 @@ function App() {
               latitude: position.coords.latitude,
               longitude: position.coords.longitude,
             });
-          } else {
+          } //
+          else {
             console.log("existe");
-            if (
-              position.coords.latitude !== actualCoords.latitude ||
-              position.coords.longitude !== actualCoords.longitude
-            ) {
+            if (position.coords.latitude !== actualCoords.latitude || position.coords.longitude !== actualCoords.longitude) {
               console.log("différent");
-              const resPosition =
-                position.coords.longitude - position.coords.latitude;
-              const resPositionPow = Math.pow(resPosition, 2);
-              const resActualPos =
-                actualCoords.longitude - actualCoords.latitude;
-              const resActualPosPow = Math.pow(resActualPos, 2);
-              const resAdditionPos = resActualPosPow + resPositionPow;
-              const resFinal = Math.sqrt(resAdditionPos);
-              console.log("resfinal =>", resFinal);
-            } else {
+              const distance = getDist(actualCoords, position.coords);
+            } //
+            else {
               console.log("pareil");
             }
           }
@@ -83,7 +86,7 @@ function App() {
     return () => {
       navigator.geolocation.clearWatch(watchId);
     };
-  }, [authToken, actualCoords.latitude, actualCoords.longitude]);
+  }, [authToken, actualCoords.latitude, actualCoords.longitude, actualCoords]);
   useEffect(() => {
     if (authToken) {
       socket.emit("login", { authToken: authToken });
@@ -101,12 +104,7 @@ function App() {
   return (
     <div className="App">
       <Router>
-        <Header
-          actualCoords={actualCoords}
-          authToken={authToken}
-          handleLogin={handleLogin}
-          handleLogOut={handleLogOut}
-        />
+        <Header setUsername={setUsername} username={username} actualCoords={actualCoords} authToken={authToken} handleLogin={handleLogin} handleLogOut={handleLogOut} />
         <Switch>
           <Route exact path="/user/sign-up">
             <SignUpPage handleLogin={handleLogin} />
@@ -114,8 +112,20 @@ function App() {
           <Route exact path="/user/login">
             <LoginPage></LoginPage>
           </Route>
+          <Route exact path="/user/arround">
+            <ArroundPage authToken={authToken} />
+          </Route>
+          <Route exact path="/user/friends">
+            <FriendPage authToken={authToken} />
+          </Route>
+          <Route exact path="/user/messages">
+            <MessagesPage authToken={authToken} />
+          </Route>
+          <Route exact path="/user/my-profile">
+            <ProfilePage authToken={authToken} />
+          </Route>
           <Route exact path="/">
-            <HomePage authToken={authToken} actualCoords={actualCoords} />
+            <HomePage username={username} authToken={authToken} actualCoords={actualCoords} />
           </Route>
           <Route path="*">
             <PageNotFound />

@@ -8,7 +8,7 @@ import { SpinnerDotted } from "spinners-react";
 
 const HomePage = (props) => {
   // let socket = io(process.env.REACT_APP_API_URL);
-  const { authToken, actualCoords } = props;
+  const { authToken, actualCoords, username } = props;
 
   const [mapLoading, setMapLoading] = useState(true);
   const [markers, setMarkers] = useState([]);
@@ -16,10 +16,9 @@ const HomePage = (props) => {
   useEffect(() => {
     if (actualCoords.latitude && actualCoords.longitude) {
       const fetchData = async () => {
-        const responseLocation = await axios.post(
-          `${process.env.REACT_APP_API_URL}location/around?latitude=${actualCoords.latitude}&longitude=${actualCoords.longitude}`
-        );
-        setMarkers(responseLocation.data.data);
+        const responseLocation = await axios.post(`${process.env.REACT_APP_API_URL}location/around?latitude=${actualCoords.latitude}&longitude=${actualCoords.longitude}`);
+
+        setMarkers(responseLocation.data.users);
       };
       fetchData();
       setMapLoading((x) => false);
@@ -48,21 +47,22 @@ const HomePage = (props) => {
                 defaultZoom={18}
                 options={{ gestureHandling: "none", disableDefaultUI: true }}
               >
-                {/* <Marker
-                  text="my"
-                  latitude={coords.latitude}
-                  longitude={coords.longitude}
-                /> */}
-
+                <Marker isUser={true} key={null} text={username} latitude={actualCoords.latitude} longitude={actualCoords.longitude} />
                 {markers.map((marker, index) => {
-                  return (
-                    <Marker
-                      key={index}
-                      text={marker.email}
-                      latitude={marker.location[1]}
-                      longitude={marker.location[0]}
-                    />
-                  );
+                  if (marker.username === username) {
+                    return null;
+                  } else {
+                    return (
+                      <Marker
+                        isUser={false}
+                        key={index}
+                        url={marker.profilePicture.secure_url}
+                        text={marker.username}
+                        latitude={marker.location[1]}
+                        longitude={marker.location[0]}
+                      />
+                    );
+                  }
                 })}
               </GoogleMapReact>
             </div>

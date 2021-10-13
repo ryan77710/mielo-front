@@ -1,6 +1,10 @@
 @import "./pages//HomePage/homePage.css";
 @import "./components/header.css";
 @import "./pages/SignUpPage/signupPage.css";
+@import "./pages/ArroundPage/arroundPage.css";
+@import "./pages/FriendPage/friendPage.css";
+@import "./pages/MessagesPage/messagesPage.css";
+@import "./pages/ProfilePage/profilePage.css";
 
 .App {
   /* background-color: red; */

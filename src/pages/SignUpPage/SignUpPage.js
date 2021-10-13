@@ -32,8 +32,7 @@ const SignUpPage = (props) => {
   const [errorMessage, setErrorMessage] = useState("");
   const [signupPermission, setSignupPermission] = useState(false);
 
-  const handleDescriptionChange = (event) =>
-    setDescription((x) => event.target.value);
+  const handleDescriptionChange = (event) => setDescription((x) => event.target.value);
 
   useEffect(() => {
     checkLength(7, password, setCheckPasswordLength);
@@ -43,7 +42,8 @@ const SignUpPage = (props) => {
 
     if (password === "" || password !== confirmePassword) {
       setCheckPassword(false);
-    } else {
+    } //
+    else {
       setCheckPassword(true);
     }
   }, [password, confirmePassword]);
@@ -51,19 +51,17 @@ const SignUpPage = (props) => {
   useEffect(() => {
     const checkUsername = async () => {
       if (usernameDebouced.length >= 6) {
-        const response = await axios.get(
-          `${process.env.REACT_APP_API_URL}user/check-username/${
-            usernameDebouced || "x"
-          }`
-        );
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}user/check-username/${usernameDebouced || "x"}`);
 
         if (response.data.message === "username not available") {
           setUsernameAvailable(true);
-        } else if (response.data.message === "username available") {
+        } //
+        else if (response.data.message === "username available") {
           setUsernameAvailable(false);
         }
         setCheckUsernameLength(false);
-      } else {
+      } //
+      else {
         setCheckUsernameLength(true);
       }
     };
@@ -84,19 +82,11 @@ const SignUpPage = (props) => {
       description
     ) {
       setSignupPermission(true);
-    } else {
+    } //
+    else {
       setSignupPermission(false);
     }
-  }, [
-    usernameAvailable,
-    checkUsernameLength,
-    checkPassword,
-    checkPasswordLength,
-    checkSpécialCharacter,
-    checkContainNumber,
-    checkPassCapitalLetter,
-    description,
-  ]);
+  }, [usernameAvailable, checkUsernameLength, checkPassword, checkPasswordLength, checkSpécialCharacter, checkContainNumber, checkPassCapitalLetter, description]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -108,10 +98,7 @@ const SignUpPage = (props) => {
           password: password,
           description: description,
         };
-        const response = await axios.post(
-          `${process.env.REACT_APP_API_URL}user/sign-up`,
-          field
-        );
+        const response = await axios.post(`${process.env.REACT_APP_API_URL}user/sign-up`, field);
 
         const token = response.data.data.token;
         handleLogin(token);
@@ -126,81 +113,27 @@ const SignUpPage = (props) => {
     <div className="signup-page">
       <h1>Sign up</h1>
       <form onSubmit={handleSubmit}>
-        <Input
-          type="email"
-          setValue={setEmail}
-          value={email}
-          placeholder="email"
-        />
-        <Input
-          type="text"
-          setValue={setUsername}
-          value={username}
-          placeholder="username"
-        />
+        <Input type="email" setValue={setEmail} value={email} placeholder="email" />
+        <Input type="text" setValue={setUsername} value={username} placeholder="username" />
 
         <div className="username-details">
-          {usernameAvailable && (
-            <span className="message-error">
-              {usernameDebouced} not available
-            </span>
-          )}
-          {checkUsernameLength && (
-            <span className="message-error">
-              the username must have more than 6 characters
-            </span>
-          )}
+          {usernameAvailable && <span className="message-error">{usernameDebouced} not available</span>}
+          {checkUsernameLength && <span className="message-error">the username must have more than 6 characters</span>}
         </div>
 
-        <Input
-          type="password"
-          setValue={setPassword}
-          value={password}
-          placeholder="password"
-        />
+        <Input type="password" setValue={setPassword} value={password} placeholder="password" />
 
         <div className="password-details">
-          <span
-            className={checkPasswordLength ? "message-good" : "message-error"}
-          >
-            must have more than 7 characters
-          </span>
-          <span
-            className={checkSpécialCharacter ? "message-good" : "message-error"}
-          >
-            must have a spécial character
-          </span>
-          <span
-            className={checkContainNumber ? "message-good" : "message-error"}
-          >
-            must have a number
-          </span>
-          <span
-            className={
-              checkPassCapitalLetter ? "message-good" : "message-error"
-            }
-          >
-            must have a capital letter
-          </span>
+          <span className={checkPasswordLength ? "message-good" : "message-error"}>must have more than 7 characters</span>
+          <span className={checkSpécialCharacter ? "message-good" : "message-error"}>must have a spécial character</span>
+          <span className={checkContainNumber ? "message-good" : "message-error"}>must have a number</span>
+          <span className={checkPassCapitalLetter ? "message-good" : "message-error"}>must have a capital letter</span>
         </div>
 
-        <Input
-          type="password"
-          setValue={setConfirmPassword}
-          value={confirmePassword}
-          placeholder="confirm password"
-        />
-        {checkPassword ? (
-          <p className="message-good">password good</p>
-        ) : (
-          <p className="message-error">password bad</p>
-        )}
+        <Input type="password" setValue={setConfirmPassword} value={confirmePassword} placeholder="confirm password" />
+        {checkPassword ? <p className="message-good">password good</p> : <p className="message-error">password bad</p>}
 
-        <TextArea
-          onChange={handleDescriptionChange}
-          value={description}
-          placeholder="description"
-        />
+        <TextArea onChange={handleDescriptionChange} value={description} placeholder="description" />
         {errorMessage && <p className="message-error">{errorMessage}</p>}
         <button type="submit">Validate</button>
       </form>

@@ -1,14 +1,16 @@
 const Marker = (props) => {
+  const { longitude, latitude, text, isUser, url } = props;
   return (
     <div
+      className={isUser ? "isUser-marker" : "marker"}
       style={{
         position: "absolute",
         transform: "translate(-50%, -50%)",
       }}
-      longitude={props.longitude}
-      latidude={props.latitude}
+      longitude={longitude}
+      latidude={latitude}
     >
-      {props.text}
+      {isUser ? "" : <img src={url} alt={text} />}
     </div>
   );
 };
