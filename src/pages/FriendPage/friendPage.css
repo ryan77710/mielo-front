@@ -8,7 +8,177 @@
   align-items: center;
 }
 .friend-page > h1 {
-  font-size: 2em;
+  font-size: 1.2em;
   font-weight: bold;
   margin-bottom: 20px;
+  color: lightslategray;
+}
+.friend-page > h1 > span {
+  cursor: pointer;
+}
+.friend-page .title-selected {
+  font-size: 1.5em;
+  color: black;
+  text-decoration: underline;
+}
+
+.friend-page > h1 > img {
+  width: 30px;
+  height: 30px;
+  margin: 0px 10px;
+}
+.friend-page .filter {
+  display: flex;
+  justify-content: center;
+}
+
+.friend-page .filter > div {
+  display: flex;
+}
+.friend-page .filter .search {
+  display: flex;
+}
+.friend-page .filter .search > p {
+  margin-right: 5px;
+}
+.friend-page .filter .select-gender label {
+  margin-right: 5px;
+}
+.friend-page .filter .select-gender {
+  margin-left: 10px;
+}
+/* friend ////////////////////////////////////////////// */
+.friend-page .friend-container {
+  /* border: 1px solid red; */
+  width: 70vw;
+}
+.friend-page .friend {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  position: relative;
+  /* border-bottom: 1px solid lightgrey; */
+  padding: 5px 5px;
+  box-sizing: border-box;
+}
+/* .friend-page .friend:hover {
+  margin-bottom: 1px solid lightgrey;
+  margin-bottom: 1px solid red;
+} */
+.friend-page .friend > img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  cursor: pointer;
+}
+.friend-page .friend > p {
+  font-size: 20px;
+  width: 250px;
+  overflow: hidden;
+}
+.friend-page .friend button {
+  background-color: initial;
+  cursor: pointer;
+  outline: none;
+  border-radius: 15%;
+  box-sizing: border-box;
+  padding: 5px 10px;
+}
+.friend-page .friend .friend-post,
+.friend-page .friend .friend-picture {
+  color: black;
+  border: black 1px solid;
+}
+.friend-page .friend .friend-post:hover,
+.friend-page .friend .friend-picture:hover {
+  color: blanchedalmond;
+  border: black 1px solid;
+  background-color: black;
+}
+
+.friend-page .friend .friend-message {
+  color: lightsteelblue;
+  border: lightsteelblue 1px solid;
+}
+.friend-page .friend .friend-message:hover {
+  color: white;
+  background-color: lightsteelblue;
+}
+.friend-page .friend .friend-delete {
+  position: absolute;
+  top: 5px;
+  right: 0px;
+  color: crimson;
+  border: crimson 1px solid;
+}
+.friend-page .friend .friend-delete:hover {
+  color: white;
+  background-color: crimson;
+}
+
+/* add friend /////////////////// */
+.friend-page .friend-request-container {
+  width: 70vw;
+}
+.friend-page .friend-request {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  position: relative;
+  /* border-bottom: 1px solid lightgrey; */
+  padding: 5px 5px;
+  box-sizing: border-box;
+}
+/* .friend-page .friend-request:hover {
+  margin-bottom: 1px solid lightgrey;
+  margin-bottom: 1px solid red;
+} */
+.friend-page .friend-request > img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  cursor: pointer;
+}
+.friend-page .friend-request > p {
+  font-size: 20px;
+  width: 250px;
+  overflow: hidden;
+}
+.friend-page .friend-request button {
+  background-color: initial;
+  cursor: pointer;
+  outline: none;
+  border-radius: 15%;
+  box-sizing: border-box;
+  padding: 5px 10px;
+}
+.friend-page .friend-request .friend-request-post,
+.friend-page .friend-request .friend-request-picture {
+  color: black;
+  border: black 1px solid;
+}
+.friend-page .friend-request .friend-request-post:hover,
+.friend-page .friend-request .friend-request-picture:hover {
+  color: blanchedalmond;
+  border: black 1px solid;
+  background-color: black;
+}
+
+.friend-page .friend-request .friend-request-message {
+  color: lightsteelblue;
+  border: lightsteelblue 1px solid;
+}
+.friend-page .friend-request .friend-request-message:hover {
+  color: white;
+  background-color: lightsteelblue;
+}
+.friend-page .friend-request .friend-request-delete {
+  color: crimson;
+  border: crimson 1px solid;
+}
+.friend-page .friend-request .friend-request-delete:hover {
+  color: white;
+  background-color: crimson;
 }

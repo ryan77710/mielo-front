@@ -29,12 +29,9 @@
   box-sizing: border-box;
   padding: 5px 10px;
   cursor: pointer;
-  box-sizing: border-box;
 }
 .button-container button:hover {
-  color: white;
   color: blanchedalmond;
-
   border: black 1px solid;
   background-color: black;
 }

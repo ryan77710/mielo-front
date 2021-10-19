@@ -1,7 +1,5 @@
 .my-profile-page {
-  /* background-color: aquamarine; */
   margin: 15px 15%;
-  /* border: black solid 1px; */
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -11,4 +9,115 @@
   font-size: 2em;
   font-weight: bold;
   margin-bottom: 20px;
+}
+.my-profile-page .user-container {
+  width: 70vw;
+}
+.my-profile-page .user-info-1 {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background-color: rgb(250, 249, 249);
+  border-radius: 1%;
+}
+.my-profile-page .user-info-1 img {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+}
+.my-profile-page .description {
+  border: lightgray solid 2px;
+  box-sizing: border-box;
+  margin: 20px 0px;
+  padding: 10px;
+  border: 5%;
+  color: lightgray;
+}
+.my-profile-page .user-info-2 {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background-color: rgb(250, 249, 249);
+  border-radius: 1%;
+  margin-bottom: 20px;
+}
+.my-profile-page .user-info-2 img {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+}
+.my-profile-page .user-basic-button {
+  display: flex;
+  justify-content: flex-end;
+}
+.my-profile-page .user-basic-button button {
+  background-color: white;
+  outline: none;
+  border: skyblue 1px solid;
+  color: skyblue;
+  border-radius: 5%;
+  box-sizing: border-box;
+  padding: 5px 10px;
+  cursor: pointer;
+  box-sizing: border-box;
+  margin-bottom: 20px;
+}
+.my-profile-page .user-basic-button button:hover {
+  color: aliceblue;
+  background-color: skyblue;
+}
+.my-profile-page .about-container {
+  /* border: 1px solid black; */
+}
+.my-profile-page .links > div:nth-child(1) {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.my-profile-page .links-container {
+  margin: 5px 0px;
+  padding: 5px;
+  border: 2px solid black;
+  border-radius: 5%;
+  box-sizing: border-box;
+  display: flex;
+}
+.my-profile-page .link {
+  margin-right: 5px;
+}
+.my-profile-page .link img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  cursor: pointer;
+}
+.my-profile-page .series {
+  margin-top: 30px;
+}
+.my-profile-page .series > div:nth-child(1) {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.my-profile-page .movies > div:nth-child(1) {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.my-profile-page .musics > div:nth-child(1) {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.my-profile-page .mangas > div:nth-child(1) {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
 }
