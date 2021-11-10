@@ -65,6 +65,15 @@ const HomePage = (props) => {
                   }
                 })}
               </GoogleMapReact>
+              <div className="caroussel-container">
+                {markers.map((userMarker, index) => {
+                  return (
+                    <div key={index}>
+                      <img title={userMarker.username} src={userMarker.profilePicture.secure_url} alt={userMarker.username} />
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           )}
         </div>

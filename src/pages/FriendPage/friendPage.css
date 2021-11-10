@@ -7,13 +7,17 @@
   flex-direction: column;
   align-items: center;
 }
-.friend-page > h1 {
+
+.friend-page > div > h1 {
   font-size: 1.2em;
   font-weight: bold;
   margin-bottom: 20px;
   color: lightslategray;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-.friend-page > h1 > span {
+.friend-page > div > h1 > span {
   cursor: pointer;
 }
 .friend-page .title-selected {
@@ -22,7 +26,7 @@
   text-decoration: underline;
 }
 
-.friend-page > h1 > img {
+.friend-page > div > h1 > img {
   width: 30px;
   height: 30px;
   margin: 0px 10px;

@@ -71,6 +71,7 @@ function App() {
             if (position.coords.latitude !== actualCoords.latitude || position.coords.longitude !== actualCoords.longitude) {
               console.log("différent");
               const distance = getDist(actualCoords, position.coords);
+              console.log(distance);
             } //
             else {
               console.log("pareil");

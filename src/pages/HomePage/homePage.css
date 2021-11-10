@@ -1,7 +1,5 @@
 .home-page {
-  /* background-color: aquamarine; */
   margin: 15px 15%;
-  /* border: black solid 1px; */
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -33,4 +31,23 @@
   height: 20px;
   width: 20px;
   border-radius: 50%;
+}
+.home-page .caroussel-container {
+  display: flex;
+  border: 1px solid gray;
+  margin-top: 20px;
+  padding: 10px 10px;
+  box-sizing: border-box;
+  overflow: hidden;
+  overflow-x: scroll;
+}
+.home-page .caroussel-container > div {
+  margin-right: 10px;
+}
+.home-page .caroussel-container > div img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  cursor: pointer;
+  object-fit: cover;
 }
