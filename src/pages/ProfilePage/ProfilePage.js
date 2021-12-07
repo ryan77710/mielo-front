@@ -6,17 +6,23 @@ import uid2 from "uid2";
 
 import LinkCaroussel from "./Components/LinkCaroussel";
 import Picture from "./Components/Picture";
+import Top from "./Components/top/Top";
 
 const ProfilePage = (props) => {
   const { authToken } = props;
   const [data, setData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const [linkToogle, setLinkToogle] = useState(false);
-  const [seriesToogle, setSeriesToogle] = useState(false);
-  const [moviesToogle, setMoviesToogle] = useState(false);
-  const [musicsToogle, setMusicsToogle] = useState(false);
-  const [mangasToogle, setMangasToogle] = useState(false);
+  const [series, setSeries] = useState([]);
+
+  const [movies, setMovies] = useState([]);
+  const [musics, setMusics] = useState([]);
+  const [mangas, setMangas] = useState([]);
+  const [books, setBooks] = useState([]);
+
   const [picturesToogle, setPicturesToogle] = useState(false);
+  const [postsToogle, setPostsToogle] = useState(false);
+
   const [addLinkPicture, setAddLinkPicture] = useState("/picture-missing.jpg");
   const [addLinkRef, setAddLinkRef] = useState("");
   const [addLinkType, setAddLinkType] = useState("link");
@@ -67,23 +73,44 @@ const ProfilePage = (props) => {
       console.log(error.message);
     }
   };
+  const handleChangeProfilePictureClick = async (event) => {
+    const formData = new FormData();
+    formData.append(`picture`, event.target.files[0]);
+    if (event.target.files[0]) {
+      try {
+        const response = await axios.post(`${process.env.REACT_APP_API_URL}user/picture-profile-change`, formData, { headers: { Authorization: `Bearer ${authToken}` } });
+        if (response) {
+        }
+      } catch (error) {
+        console.log(error.message);
+      }
+    }
+  };
+
   return (
     <div>
       {authToken ? (
         <div className="my-profile-page">
           <h1>my profile</h1>
+
           {isLoading ? (
             <div>is loading</div>
           ) : (
             <div className="user-container">
               <div className="user-basic">
                 <div className="user-info-1">
-                  <img src={data.profilePicture.secure_url} alt="user-profile" /> <p>{data.username}</p>
+                  <label htmlFor="profile-picture">
+                    <img src={data.profilePicture.secure_url} alt="user-profile" />
+                  </label>
+                  <p>{data.username}</p>
+                  <p>friend: 3333</p>
+                  <input id="profile-picture" type="file" hidden onChange={handleChangeProfilePictureClick} />
                 </div>
                 <p className="description">{data.description}</p>
                 <div className="user-info-2">
                   <p>rate:16/20</p>
-                  <img src={data.profilePicture.secure_url} alt="pic-day" />
+                  {data.picture_day ? <img src={data.profilePicture.secure_url} alt="pic-day" /> : <img src={"/picture-missing.jpg"} alt="pic-day" />}
+                  <p>follower: 5555</p>
                 </div>
                 <div className="user-basic-button">
                   <button>update your profile</button>
@@ -134,40 +161,16 @@ const ProfilePage = (props) => {
                     })}
                   </div>
                 </div>
-                <div className="series">
-                  <div>
-                    <h2>top series</h2>
-                    <button onClick={() => setSeriesToogle((x) => !x)}>{seriesToogle ? "-" : "+"}</button>
-                  </div>
-                  <div className="series-container">
-                    <div className="serie">
-                      <span>1</span> <h3>title</h3>
-                    </div>
-                  </div>
-                </div>
-                <div className="movies">
-                  <div>
-                    <h2>top movies</h2>
-                    <button onClick={() => setMoviesToogle((x) => !x)}>{moviesToogle ? "-" : "+"}</button>
-                  </div>
-                </div>
-                <div className="musics">
-                  <div>
-                    <h2>top musics</h2>
-                    <button onClick={() => setMusicsToogle((x) => !x)}>{musicsToogle ? "-" : "+"}</button>
-                  </div>
-                </div>
-                <div className="mangas">
-                  <div>
-                    <h2>top manga</h2>
-                    <button onClick={() => setMangasToogle((x) => !x)}>{mangasToogle ? "-" : "+"}</button>
-                  </div>
-                </div>
+                <Top title="series" data={series} setData={setSeries}></Top>
+                <Top title="movies" data={movies} setData={setMovies}></Top>
+                <Top title="musics" data={musics} setData={setMusics}></Top>
+                <Top title="mangas" data={mangas} setData={setMangas}></Top>
+                <Top title="books" data={books} setData={setBooks}></Top>
               </div>
-              <div>posts</div>
+              {/* <div>posts</div> */}
               <div className="pictures-section">
                 <div onClick={() => setPicturesToogle((x) => !x)} className="picture-title">
-                  <h2>pictures</h2>
+                  <h2>my pictures</h2>
                   <button>{picturesToogle ? "-" : "+"}</button>
                 </div>
                 {picturesToogle ? (
@@ -179,10 +182,49 @@ const ProfilePage = (props) => {
 
                     <div className="pictures-container">
                       {data.pictures.map((picture) => {
-                        console.log(picture);
                         return <Picture key={picture.public_id} authToken={authToken} url={picture.secure_url} assetId={picture.asset_id} publicId={picture.public_id} />;
                       })}
                     </div>
+                  </div>
+                ) : (
+                  ""
+                )}
+              </div>
+              <div className="post-section">
+                <div onClick={() => setPostsToogle((x) => !x)} className="post-title">
+                  <h2>my posts</h2>
+                  <button>{postsToogle ? "-" : "+"}</button>
+                </div>
+                {postsToogle ? (
+                  <div className="post-toogle-on">
+                    <div className="filter">
+                      <label htmlFor="">
+                        order :{" "}
+                        <select onChange={(event) => setAddLinkType(event.target.value)} id="select-type">
+                          <option value="more-recent">more recent</option>
+                          <option value="less-recent">less recent</option>
+                        </select>
+                      </label>
+
+                      <label htmlFor="">
+                        type :{" "}
+                        <select onChange={(event) => setAddLinkType(event.target.value)} id="select-type">
+                          <option value="all">all</option>
+                          <option value="text">text</option>
+                          <option value="picture">picture</option>
+                        </select>
+                      </label>
+
+                      <label htmlFor="">
+                        filter by more :{" "}
+                        <select onChange={(event) => setAddLinkType(event.target.value)} id="select-type">
+                          <option value="null">null</option>
+                          <option value="vue">vue</option>
+                          <option value="like">like</option>
+                        </select>
+                      </label>
+                    </div>
+                    <div className="posts-container">post :)</div>
                   </div>
                 ) : (
                   ""

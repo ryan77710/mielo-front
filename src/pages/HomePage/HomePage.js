@@ -19,6 +19,7 @@ const HomePage = (props) => {
         const responseLocation = await axios.post(`${process.env.REACT_APP_API_URL}location/around?latitude=${actualCoords.latitude}&longitude=${actualCoords.longitude}`);
 
         setMarkers(responseLocation.data.users);
+        console.log(responseLocation.data.users);
       };
       fetchData();
       setMapLoading((x) => false);

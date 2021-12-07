@@ -12,3 +12,57 @@
   font-weight: bold;
   margin-bottom: 20px;
 }
+.messages-page .type-messages-container {
+  display: flex;
+  justify-content: space-between;
+  width: 70vw;
+}
+.messages-page .type-message {
+  width: 300px;
+}
+.messages-page .type-message h2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.messages-page .message-container {
+  margin-top: 5px;
+}
+.messages-page .message {
+  display: flex;
+  border-bottom: 1px solid lightgray;
+  padding: 3px;
+  box-sizing: border-box;
+}
+.messages-page .message > img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+.messages-page .message-title {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 250px;
+  height: 25px;
+}
+.messages-page .message-title span:nth-child(1) {
+  width: 160px;
+}
+.messages-page .last-message_vue {
+  display: flex;
+  height: 25px;
+  align-items: center;
+  justify-content: space-around;
+}
+.messages-page .last-message_vue span:nth-child(1) {
+  color: lightgray;
+  display: flex;
+  align-items: center;
+  width: 210px;
+  height: 25px;
+  font-size: 14px;
+  overflow: hidden;
+  white-space: nowrap;
+}

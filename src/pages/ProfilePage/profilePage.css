@@ -1,3 +1,4 @@
+@import "./Components/top/top.css";
 .my-profile-page {
   margin: 15px 15%;
   display: flex;
@@ -24,6 +25,7 @@
   width: 150px;
   height: 150px;
   border-radius: 50%;
+  cursor: pointer;
 }
 .my-profile-page .description {
   border: lightgray solid 2px;
@@ -153,12 +155,13 @@
 .my-profile-page .links-container {
   margin: 5px 0px;
   padding: 5px;
-  border: 2px solid black;
+  /* border: 2px solid black; */
   border-radius: 5%;
   box-sizing: border-box;
   display: flex;
   overflow: hidden;
   overflow-x: scroll;
+  background-color: seashell;
 }
 .my-profile-page .link {
   margin-right: 5px;
@@ -170,45 +173,29 @@
   object-fit: cover;
   cursor: pointer;
 }
-.my-profile-page .series {
+.my-profile-page .pictures-section {
   margin-top: 30px;
 }
-.my-profile-page .series > div:nth-child(1) {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 10px;
-}
-
-.my-profile-page .movies > div:nth-child(1) {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 10px;
-}
-
-.my-profile-page .musics > div:nth-child(1) {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 10px;
-}
-.my-profile-page .mangas > div:nth-child(1) {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 10px;
-}
-/* .my-profile-page .pictures-section {
-} */
 .my-profile-page .picture-title {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-around;
+  padding: 10px;
+  box-sizing: border-box;
+  border: 1px solid orangered;
+  border-radius: 15px;
+}
+.my-profile-page .picture-title h2 {
+  font-style: italic;
+  font-weight: bold;
+  text-decoration: underline;
+  color: orangered;
 }
 
 .my-profile-page .picture-toogle-on {
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 .my-profile-page .add-picture {
   background-color: white;
@@ -220,7 +207,7 @@
   padding: 5px 10px;
   cursor: pointer;
   box-sizing: border-box;
-  margin-bottom: 20px;
+  margin-top: 20px;
 }
 .my-profile-page .add-picture:hover {
   color: blanchedalmond;
@@ -262,4 +249,36 @@
 .my-profile-page .picture > span:hover {
   color: blanchedalmond;
   background-color: black;
+}
+.my-profile-page .post-section {
+  margin-top: 30px;
+}
+.my-profile-page .post-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 10px;
+  box-sizing: border-box;
+  border: 1px solid orangered;
+  border-radius: 15px;
+}
+.my-profile-page .post-title h2 {
+  font-style: italic;
+  font-weight: bold;
+  text-decoration: underline;
+  color: orangered;
+}
+.my-profile-page .post-toogle-on {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.my-profile-page .post-section .filter {
+  width: 100%;
+  margin: 10px 0px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.my-profile-page .post-container {
 }

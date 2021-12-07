@@ -100,6 +100,16 @@ const Header = (props) => {
                     )}
                   </div>
                   <div>
+                    <p>langue</p>
+                    <p>uploader</p>
+                    <p>notification</p>
+                    <p>mes modérateurs</p>
+                    <p>comentaires</p>
+                    <p></p>
+                    <p></p>
+                    <p>a propos</p>
+                    <p>faire un don</p>
+                    <p>nous contacter</p>
                     <p>latitude : {actualCoords.latitude || "null"}</p>
                     <p>longitude : {actualCoords.longitude || "null"}</p>
                   </div>

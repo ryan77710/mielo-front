@@ -1,0 +1,75 @@
+.my-profile-page .about-tops {
+  margin-top: 30px;
+  border-radius: 15px;
+}
+.my-profile-page .about-tops:hover {
+  box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.75);
+  -webkit-box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.75);
+}
+.my-profile-page .about-tops > div:nth-child(1) {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-bottom: 10px;
+  border: black 0.5px solid;
+  padding: 10px;
+  box-sizing: border-box;
+  border-radius: 15px;
+}
+.my-profile-page .about-tops > div:nth-child(1) h2 {
+  text-decoration: underline;
+  font-style: italic;
+  font-weight: bold;
+}
+.my-profile-page .about-tops > div:nth-child(1) > div button {
+  margin-right: 3px;
+  cursor: pointer;
+}
+.my-profile-page .about-top-container > div > div:nth-child(odd) {
+  background-color: seashell;
+}
+.my-profile-page .about-top-container > div > div:nth-child(even) {
+  background-color: rgb(250, 242, 229);
+}
+.my-profile-page .about-top {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  box-sizing: border-box;
+  margin: 2px 0px;
+  padding: 3px;
+}
+.my-profile-page .about-top input {
+  width: 60%;
+  background-color: none;
+  outline: none;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  border: none;
+  color: lightgrey;
+}
+.my-profile-page .about-top button {
+  background-color: white;
+  outline: none;
+  border: black 1px solid;
+  color: black;
+  border-radius: 5%;
+  box-sizing: border-box;
+  /* padding: 5px 10px; */
+  cursor: pointer;
+  box-sizing: border-box;
+  /* margin-bottom: 20px; */
+}
+.my-profile-page .about-top button:hover {
+  cursor: pointer;
+  color: blanchedalmond;
+  background-color: black;
+}
+
+.my-profile-page .top-missing-message {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
